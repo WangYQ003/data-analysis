@@ -1,0 +1,187 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+\#泰坦尼克 titanic\textless-read.csv(file.choose())
+
+summary(titanic)\#population head(titanic)\#top 6
+
+titanic\(Pclass <- factor(titanic\)Pclass)\#因子类型定义，分类变量
+
+sum(is.na(titanic\(Age)) sum(is.na(titanic\)Cabin))
+summary(titanic\$Cabin)
+
+library(colorspace) library(grid) library(data.table) library(VIM)
+library(mice) library(ggplot2) NaPlot \textless- aggr(titanic,
+col=c(``cyan'', ``red''), numbers=TRUE, labels=names(data), cex.axis=.7,
+gap=3, ylab=c(``Histogram of missing data'',``Pattern''))
+\#缺失值信息可视化
+
+median(titanic\(Age,na.rm = T) titanic\)Age{[}is.na(titanic\(Age)] <- median(titanic\)Age,na.rm
+= T) titanic\(Embarked[is.na(titanic\)Embarked){]} \textless- `S'
+summary(titanic)
+
+library(lattice) library(caret) \#版本不够 base \textless-
+data.frame(predict(dummyVars(\textasciitilde., data = titanic),
+titanic)) trainid \textless- createDataPartition(base\$PassengerId, p =
+0.75, list = F) train \textless- base{[}trainid,{]} test \textless-
+base{[}-trainid,{]}\#方法错误
+\#直接读取，全样本作为测试集（准确率偏高一些）
+train\textless-read.csv(file.choose())
+test\textless-read.csv(file.choose())
+
+library(ggplot2) Pclass\_S \textless-
+table(train\(Survived, train\)Pclass) Pclass\_S\_prop \textless-
+prop.table(Pclass\_S, 2) ggplot(data = train, aes(x = Pclass, fill =
+factor(Survived)))+geom\_bar(stat=`count', position=`dodge') +
+scale\_x\_continuous(breaks=c(1:3)) + labs(x = `Pclass')
+
+Pclass\_S\_prop
+
+Sex\_S \textless- table(train\(Survived, train\)Sex) Sex\_S\_prop
+\textless- prop.table(Sex\_S, 2) ggplot(data = train, aes(x = Sex, fill
+= factor(Survived)))+geom\_bar(stat=`count', position=`dodge')
+
+Agedata \textless-
+as.numeric(unlist(train\(Age)) Age_Level<-cut(Agedata, breaks = c(0, 15, 30, 45, 60, 75, 90), labels = c('kids', 'teenagers', 'prime', 'middle', 'agedness', 'senium' )) Age_S <- table(train\)Survived,
+Age\_Level) Age\_S\_prop \textless- prop.table(Age\_S, 2) ggplot(data =
+data.frame(train\$Survived, Agedata), aes(x = cut(Agedata, breaks = c(0,
+15, 30, 45, 60, 75, 90)), fill =
+factor(train.Survived)))+geom\_bar(stat=`count', position=`dodge') +
+labs(x = `Age') + scale\_x\_discrete(labels = c(`kids', `teenagers',
+`prime', `middle', `agedness', `senium'))
+
+Sibsp\_S \textless- table(train\(Survived, train\)SibSp) Parch\_S
+\textless- table(train\(Survived, train\)Parch) Sibsp\_S\_prop
+\textless- prop.table(Sibsp\_S, 2) Parch\_S\_prop \textless-
+prop.table(Parch\_S, 2) ggplot(data = train, aes(x = SibSp, fill =
+factor(Survived)))+geom\_bar(stat=`count', position=`dodge') +
+scale\_x\_continuous(breaks=c(0:8)) + labs(x = `Sibsp') ggplot(data =
+train, aes(x = Parch, fill = factor(Survived)))+geom\_bar(stat=`count',
+position=`dodge') + scale\_x\_continuous(breaks=c(0:6)) + labs(x =
+`Parch') Families \textless- train\(SibSp +train\)Parch ggplot(data =
+train, aes(x = Families, fill =
+factor(Survived)))+geom\_bar(stat=`count', position=`dodge') +
+scale\_x\_continuous(breaks=c(0:10)) + labs(x = `Families')
+
+Faredata \textless-
+as.numeric(unlist(train\(Fare)) Fare_S <- table(train\)Survived,
+cut(Faredata, breaks = c(0, 50, 100, 600), labels = c(`poor', `middle',
+`rich'))) Fare\_S\_prop \textless- prop.table(Fare\_S, 2) ggplot(data =
+data.frame(train\(Survived, Faredata), aes(x = cut(Faredata, breaks = c(0, 50, 100, 600)), fill = factor(train.Survived)))+geom_bar(stat='count', position='dodge') + labs(x = 'Fare') + scale_x_discrete(labels = c('poor', 'middle', 'rich')) Embarked_S <- table(train\)Survived,
+train\$Embarked) Embarked\_S\_prop \textless- prop.table(Embarked\_S, 2)
+ggplot(data = train, aes(x = Embarked, fill =
+factor(Survived)))+geom\_bar(stat=`count', position=`dodge')
+
+library(dplyr) library(stringr) library(colorspace) library(grid)
+library(data.table) library(VIM) library(mice) library(ggplot2)
+library(lattice) library(caret) \#版本不够
+
+base \textless- data.frame(predict(dummyVars(\textasciitilde., data =
+titanic), titanic))
+
+logistic \textless- glm(Survived
+\textasciitilde Pclass+Sex+Age+SibSp+Parch+Fare,data = train{[},
+-1{]},family = `binomial'(link = `logit')) summary(logistic)
+
+library(randomForest) library(ggplot2) set.seed(123) RF \textless-
+randomForest(factor(base\$Survived) \textasciitilde{} ., data = base,
+importance = TRUE)
+
+RF\_tree \textless- plot(RF) tree \textless- c(1:500) OOB \textless-
+data.frame(tree, RF\_tree) ggplot(data = OOB, aes(x =
+tree))+geom\_line(aes(y = OOB), colour = ``black'', size =
+0.8)+geom\_line(aes(y = X0), colour = ``red'', size =
+0.8)+geom\_line(aes(y = X1), colour = ``green'', size = 0.8) + labs(y =
+``Error.rate'') + theme\_bw()
+
+test\textless-read.csv(file.choose())\#test datsets,test3
+
+test\(predict <- predict(logistic, test, type='response') test\)predictClass
+\textless- NULL test\(predictClass[test\)predict \textgreater= 0.5{]}
+\textless- 1
+\#逻辑回归得到的是一个概率值，而如何去划分需要我们指定，本例中大于等于0.5为正例，即：幸存。0.5也可以划分为0，已经测试过这个例子中不影响预测结
+test\(predictClass[test\)predict \textless{} 0.5{]} \textless- 0
+test\(predictClass[is.na(test\)predict){]} \textless- 0
+table(test\(Survived, test\)predictClass)
+
+\#钻石 library(ggplot2) require(ggplot2) data() data(diamonds)
+head(diamonds)
+
+hist(diamonds\$carat,main=``Carat Histogram'',xlab=``Carat'')
+
+plot(price\textasciitilde carat,data=diamonds)
+plot(log(price)\textasciitilde log(carat),data=diamonds)
+ggplot(diamonds,aes(x=carat,y=price))+geom\_point()
+
+ggplot(diamonds,aes(x=carat,y=price))+geom\_point(aes(color=color))
+ggplot(diamonds,aes(x=carat,y=price))+geom\_point(aes(color=color))+facet\_grid(cut\textasciitilde clarity)
+
+library(ggthemes)
+ggplot(diamonds,aes(x=carat,y=price))+geom\_point(aes(color=color))+theme\_wsj()
+
+\end{document}
